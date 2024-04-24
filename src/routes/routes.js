@@ -12,8 +12,6 @@ routes.post("/auth/login", users.login)
 
 routes.use(auth)
 
-routes.get("/user/:id", users.access)
-routes.get("/users", users.index)
 
 
 

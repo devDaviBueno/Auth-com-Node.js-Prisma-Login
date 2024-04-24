@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('../img/imgcruzeirofundoback.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative; 
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.438);
+            width: 300px;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #loading {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        #res_back-end {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="registrationForm">
+        <div id="loading">
+           <p>Carregando...</p> 
+        </div>
+        <div id="res_back-end">
+            <p></p> 
+         </div>
+        <h2>Login - San Jose</h2>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" value="Entrar">
+        <p>Ainda não criou sua conta? <a href="../register/register.html">Registrar-se</a></p>
+    </form>
+</body>
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const userData = {
+                email: email,
+                password: password,
+            };
+
+            const loadingDiv = document.getElementById('loading');
+
+            fetch('http://localhost:5050/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(obj => { throw new Error(obj.msg) });
+                }
+                const token = response.headers.get('Authorization')
+                return response.json().then(data => {
+                    localStorage.setItem('token', token);
+                    console.log('Usuário logado com sucesso:', data);
+                    document.getElementById('res_back-end').style.display = 'none';
+                    loadingDiv.style.display = 'block';      
+                    setTimeout(() => {
+                        window.location.replace("../dashboard/dashboard.html");
+                    }, 2000);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao registrar usuário:', error);
+                const resultadoDiv = document.getElementById('res_back-end').querySelector('p');
+                resultadoDiv.textContent = error.message;
+                document.getElementById('res_back-end').style.display = 'block';
+            });
+        });
+    </script>
+
+</html>

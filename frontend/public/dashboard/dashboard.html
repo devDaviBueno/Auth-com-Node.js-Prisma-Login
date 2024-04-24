@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../img/imgcruzeirofundoback.png');
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o conteúdo ocupe pelo menos toda a altura da viewport */
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    font-size: 20px;
+    margin-right: 25px;
+}
+
+nav ul li :hover {
+    color: blue;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    flex: 1; /* Faz com que o conteúdo principal (main) ocupe todo o espaço disponível */
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto; /* Empurra o footer para o final da página */
+}
+
+
+
+/* #devBy{
+    font-size: 12px;
+} */
+
+
+</style>
+<body>
+    <header>
+        <h1>Consultor corporativo</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section>
+ 
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 consultor corporativo: Telma Bueno</p>
+    </footer>
+</body>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token =  localStorage.getItem('token');
+            // localStorage.removeItem("token")
+            if (!token) {
+                window.location.replace("../login/login.html");
+            } else {
+                console.log('Token encontrado:', token);
+            }
+        });
+</script>
+</html>
